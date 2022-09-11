@@ -9,7 +9,7 @@ import classes from "./NewCommentForm.module.css";
 const NewCommentForm = (props) => {
   const commentTextRef = useRef();
 
-  const { sendRequest, status } = useHttp(addComment);
+  const { sendRequest, status, error } = useHttp(addComment);
 
   const { onAddedComment } = props;
 
@@ -25,7 +25,7 @@ const NewCommentForm = (props) => {
     // optional: Could validate here
     const enteredText = commentTextRef.current.value;
     // send comment to server
-    addComment({ text: enteredText }, props.quoteId);
+    sendRequest({ commentData: { text: enteredText }, quoteId: props.quoteId });
   };
 
   return (

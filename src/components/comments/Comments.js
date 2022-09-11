@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import classes from "./Comments.module.css";
 import NewCommentForm from "./NewCommentForm";
@@ -23,7 +23,9 @@ const Comments = () => {
     setIsAddingComment(true);
   };
 
-  const addedCommentHandler = () => {};
+  const addedCommentHandler = useCallback(() => {
+    sendRequest(quoteId);
+  }, [sendRequest, quoteId]);
   let comments;
 
   if (status === "pending") {
@@ -50,9 +52,7 @@ const Comments = () => {
           Add a Comment
         </button>
       )}
-      {isAddingComment && (
-        <NewCommentForm quoteId={params.quoteId} onAddedComment={addedCommentHandler} />
-      )}
+      {isAddingComment && <NewCommentForm quoteId={quoteId} onAddedComment={addedCommentHandler} />}
       {comments}
     </section>
   );
